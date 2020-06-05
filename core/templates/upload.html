@@ -1,0 +1,52 @@
+ {% extends "layouts/base.html" %} {% block title %} Upload File{% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %} {% block content %} {% if messages %} {% for message in messages %}
+
+<div>
+    <strong> {{message|safe}} </strong>
+</div>
+
+{% endfor %} {% else %} {{order}}
+
+
+<div class="col-xl-5">
+    <div class="card">
+        <div class="card-header">
+            <h5>Upload CSV</h5>
+        </div>
+        <br>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container">
+                <div class="row">
+                    <div class="form-group col-md-6 col-md-offset-4">
+                        <label for="bancos">Selecione o tipo do arquivo:</label>
+                        <select class="form-control" name='tipo'>
+                                <option value="1">Consultas</option>
+                                <option value="2">Exames</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6 col-md-offset-4">
+                        <label for="file_macro"></label>
+                        <input class="form-control" name='arquivo' type="file">
+                        <small>Apenas arquivos .csv</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-5 col-md-offset-6">
+                        <button type="submit" class="btn btn-primary col-md-5">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endif %} {% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

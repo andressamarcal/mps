@@ -1,0 +1,176 @@
+{% extends "layouts/base.html" %} {% block title %} Dashboard {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/assets/plugins/chart-morris/css/morris.css"> {% endblock stylesheets %} {% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <!--[ daily sales section ] start-->
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card daily-sales">
+                            <div class="card-block">
+                                <h6 class="mb-4">Total de Consultas</h6>
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-9">
+                                        <h3 class="f-w-300 d-flex align-items-center m-b-0">{{total_consultas}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card Monthly-sales">
+                            <div class="card-block">
+                                <h6 class="mb-4">Total Recebido Consultas</h6>
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-9">
+                                        <h3 class="f-w-300 d-flex align-items-center  m-b-0">R$ {{total_valor_consultas|floatformat:2}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--[ daily sales section ] end-->
+                    <!--[ Monthly  sales section ] starts-->
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card Monthly-sales">
+                            <div class="card-block">
+                                <h6 class="mb-4">Total de Exames</h6>
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-9">
+                                        <h3 class="f-w-300 d-flex align-items-center  m-b-0">{{total_exames}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card Monthly-sales">
+                            <div class="card-block">
+                                <h6 class="mb-4">Total Recebido Exames</h6>
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-9">
+                                        <h3 class="f-w-300 d-flex align-items-center m-b-0">R$ {{total_valor_exames|floatformat:2}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ Monthly  sales section ] end -->
+                </div>
+                <!-- [ Main Content ] end -->
+
+                <div class="pcoded-content">
+                    <div class="pcoded-inner-content">
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h5 class="m-b-10">Gráfico do Sistema</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main-body">
+                            <div class="page-wrapper">
+                                <!-- [ Main Content ] start -->
+                                <div class="row">
+                                    <canvas id="myChart" width="200" height="100"></canvas>
+                                </div>
+                                <!-- [ Main Content ] end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.js"></script>
+
+<script>
+    var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var YEARS = {{ years|safe }};
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ month_years|safe }},
+            datasets: [{
+                label: 'Quantidade Consultas',
+                data: {{ data_consulta|safe }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.3)',
+                    'rgba(54, 162, 235, 0.3)',
+                    'rgba(255, 206, 86, 0.3)',
+                    'rgba(75, 192, 192, 0.3)',
+                    'rgba(153, 102, 255, 0.3)',
+                    'rgba(255, 159, 64, 0.3)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1,
+                fill: false,
+            }, {
+                label: 'Quantidade Exames',
+                data: {{ data_exames|safe }},
+                backgroundColor: [
+                    'rgba(0,0,255,0.3)',
+                    'rgba(0,0,255,0.3)',
+                    'rgba(0,0,255,0.3)',
+                    'rgba(0,0,255,0.3)',
+                    'rgba(0,0,255,0.3)',
+                    'rgba(0,0,255,0.3)'
+                ],
+                borderColor: [
+                    'rgba(0,0,255,1)',
+                    'rgba(0,0,255, 1)',
+                    'rgba(0,0,255,1)',
+                    'rgba(0,0,255,1)',
+                    'rgba(0,0,255,1)',
+                    'rgba(0,0,255,1)'
+                ],
+                borderWidth: 1,
+                fill: false,
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Month'
+                    }
+                },
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+{% endblock javascripts %}

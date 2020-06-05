@@ -1,0 +1,167 @@
+{% extends "layouts/base.html" %} {% block title %} Relatorio {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/assets/css/datatables.min.css"> {% endblock stylesheets %} {% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Relatórios do Sistema</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{ % url 'home' %}"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'report' %}">Relatorio</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <!-- [ Hover-table ] start -->
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Relatório</h5>
+                                <!-- <span class="d-block m-t-5">use class <code>table-hover</code> inside table element</span> -->
+                            </div>
+
+
+
+
+
+                            <form id="myForm" method="GET" class="form-inline">
+
+                                <div class="form-group col-md-2 col-lg-2">
+                                    <label for="id_medico_label">Nome do Médico(a)</label>
+                                    <br>
+                                    <select id="id_medico_select" class="form-control" name="medico">
+                                        <option selected>Selecionar</option>
+                                        {% for medico in medicos %}
+                                        <option value="{{ medico }}">{{ medico }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-2 col-lg-2">
+                                    <label for="date_minx">Data Minima</label>
+                                    <br>
+                                    <input type="date" class="form-control" id="DateMin" name="date_min">
+                                </div>
+
+                                <div class="form-group col-md-2 col-lg-2">
+                                    <label for="date_max">Data Maxima</label>
+                                    <br>
+                                    <input type="date" class="form-control" id="DateMax" name="date_max">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Filtrar</button>
+
+                            </form>
+
+
+
+
+
+                            <div class="card-block table-border-style ">
+                                <div class="table-responsive ">
+                                    <table id='myTable' class="table table-hover ">
+                                        <thead>
+                                            <tr>
+                                                <th>Cod. Médico</th>
+                                                <th>Nome do Médico</th>
+                                                <th>Nº da Guia</th>
+                                                <th>Data da Consulta</th>
+                                                <th>Valor da Consulta</th>
+                                                <th>Gasto por Consulta</th>
+                                                <th>Quantidade de Exames</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {% for consulta in consultas %}
+
+                                            <tr>
+                                                <th scope="row ">{{ consulta.cod_medico }}</th>
+                                                <td>{{ consulta.nome_medico }}</td>
+                                                <td>{{ consulta.numero_guia_consulta }}</td>
+                                                <td>{{ consulta.data_consulta|date:"d/m/Y " }}</td>
+                                                <td>R$ {{ consulta.valor_consulta|floatformat:2 }}</td>
+                                                <td>R$ {{ consulta.quantidade_exames|floatformat:2 }}</td>
+                                                <td>{{ consulta.gasto_consulta }}</td>
+                                            </tr>
+
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ Hover-table ] end -->
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS -->
+{% block javascripts %}
+
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js "></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js "></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js "></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js "></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js "></script>
+
+<script>
+    $(document).ready(function() {
+        $('#myTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'csv', 'excel', 'pdf',
+            ],
+            "language ": {
+                "url ": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese-Brasil.json "
+            },
+            "order ": [
+                [3, "desc "]
+            ]
+        });
+    });
+</script>
+<!-- 
+<script>
+    $.ajax({
+        url: "{% url 'report' %}",
+        method: 'GET',
+        data: {
+            filter: parseInt(data_min, data_max)
+        }
+        success: function(data) {
+            console.log(data)
+        },
+        error: function(xhr, errmsg, err) {
+            console.log("error")
+            console.log(error_data)
+        }
+    });
+</script> -->
+
+{% endblock javascripts %}

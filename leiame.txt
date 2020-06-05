@@ -1,0 +1,16 @@
+O que faltou fazer:
+
+    1 - Otimizar as consultas da tabela de relatório, onde notei que a cada refresh ele consulta a API e traz todos os dados, pode-se otimizar, estipulando um range limite, por exemplo: 100 itens do banco por consulta, e não todos.
+
+    2 - Faltou implementar os filtros, tem duas formas, posso implementar com um plugin de filtro por coluna do datatables, ou pelo proprio django mesmo, trazendo uma listagem distinta de nome_medicos ou pelo cod_medico.
+
+    3 - O gráfico deveria ser implementado com a biblioteca D3, optei pela ChartJS por já ter usado e já ter algum conhecimento, não tive como usar muito bem meu tempo por motivos de saúde, então fiz de uma forma que eu ganhasse tempo e    concluisse o que pedia nos requisitos do projeto.
+
+    4 - Não implementei os testes por falta de tempo mesmo, perdão
+
+    5 - Desculpe a demora para entregar, e a falta de algumas coisas, adoeci e fiquei acamada, perdi alguns dias de produtividade com isso.
+
+    6 - Obrigada pela oportunidade de tentar a vaga, gratidão por isso.
+
+
+    #####  Um excelente Final de Semana, abraços! ########
