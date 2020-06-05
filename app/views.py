@@ -152,18 +152,3 @@ class DashboardView(TemplateView):
                     f"{consulta.data_consulta.month}/{consulta.data_consulta.year}": [consulta.gasto_consulta]
                 })
         return dict_mes_ano_consulta, dict_mes_ano_exames
-        
-
-# def graph(request):
-#     consultas = Consulta.objects.all()
-
-#     context = {
-#         'consultas': consultas,
-#         'consulta_quantidade_exames': consultas.quantidade_exames,
-#     }
-
-#     return JsonResponse(request, 'graph.html', context)
-
-
-class GraphView(TemplateView):
-    template_name = 'graph.html'
