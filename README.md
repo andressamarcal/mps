@@ -117,17 +117,7 @@ The app is provided with a basic configuration to be executed in [Docker](https:
 ### [Docker](https://www.docker.com/) execution
 ---
 
-The application can be easily executed in a docker container. The steps:
-
-> Get the code
-
-```bash
-$ git clone https://github.com/andressamarcal/mapes-solutions-project
-$ cd mapes-solutions-project
 ```
-
-OR
-
 > Start the app in Docker
 
 ```bash
