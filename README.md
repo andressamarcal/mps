@@ -1,4 +1,4 @@
-# [Sistema de analise de dados de consultas e exames médicos.]
+# Sistema de analise de dados de consultas e exames médicos.
 
 > Link
 
